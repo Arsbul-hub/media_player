@@ -1,0 +1,144 @@
+.news-content {
+    display: flex;
+    width: 80%;
+    background-color: white;
+    white-space: nowrap;
+    box-shadow: 0px 0px 25px grey;
+    margin: 60px auto;
+    border-radius: 10px;
+    flex-direction: row;
+  
+}
+.title-block {
+  font-size: xx-large;
+  font-weight: normal;
+}
+.news {
+  white-space: normal;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  margin: 10px 36px;
+  vertical-align: top;
+
+}
+.news-body{
+  margin-top: 36px;
+
+}
+
+.view-all {
+  display: flex;
+    justify-content: center;
+}
+
+
+
+.cover {
+  margin: 10px;
+
+  height: 300px;
+
+}
+
+@media only screen and (min-width: 1200px) {
+
+    .title {
+        font-size: 30px;
+    }
+
+    span {
+        font-size: 30px;
+    }
+
+    .tools i {
+        font-size: 24px;
+    }
+
+    .tools a {
+        margin: 0 8px;
+    }
+
+
+    .view-all {
+        font-size: 18px;
+    }
+    .news-body span, p, h1, h2, h3, h4, h5, h6 {
+        font-size: 17px;
+        font-weight: normal;
+    }
+
+
+}
+
+@media only screen and (min-width: 992px) and (max-width: 1200px) {
+    /* Общие стили */
+    .title {
+        font-size: 30px;
+    }
+
+    span {
+        font-size: 30px;
+    }
+
+    .tools i {
+        font-size: 24px;
+    }
+
+    .tools a {
+        margin: 0 8px;
+    }
+
+    .item-block {
+        width: 600px;
+    }
+
+    .news-body span, p, h1, h2, h3, h4, h5, h6 {
+        font-size: 18px;
+        font-weight: normal;
+    }
+
+
+    .view-all {
+        font-size: 22px;
+    }
+}
+/* mobile */
+@media only screen and (min-width: 768px) and (max-width: 992px) { 
+    p {
+        font-size: 40px;
+    }
+
+    span {
+        font-size: 50px;
+    }
+    .cover {
+      height: 100%;
+    }
+    .news-content {
+      flex-direction: column;
+    }
+
+    .title-block {
+        font-size: 43px;
+    }
+
+    .item-block {
+        width: 90vw;
+    }
+    .content {
+      height: 40vh;
+    }
+    .news-body p {
+        font-size: 30px;
+        font-weight: normal;
+    }
+
+
+}
+
+@media only screen and (min-width: 480px) and (max-width: 768px) {
+
+}
+
+@media only screen and (max-width: 320px) and (max-width: 480px) {
+}

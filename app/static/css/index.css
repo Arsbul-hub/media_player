@@ -1,0 +1,113 @@
+.description {
+
+    width: 80%;
+    margin: 40px auto;
+}
+.description p {
+
+
+
+    margin-top: 10px;
+    line-height: 2;
+
+}
+
+
+.description hr {
+    margin-top: 30px;
+    margin-bottom: 20px;
+
+	padding: 0;
+	height: 0;
+}
+
+
+/*.bg-image img {
+    height: 100%;
+    width: 100%;
+}
+.bg-image {
+    position: absolute;
+    top: 0;
+    opacity: 50%;
+
+    width: 100%;
+}*/
+#bg-image {
+    background-image: url(/static/images/background_image.png);
+    height: 100vh;
+
+    background-position: center;
+    width: 100%;
+    background-size: cover;
+    position: absolute;
+    opacity: 0.3;
+}
+
+
+@media only screen and (min-width: 1200px){
+
+
+
+    .description hr {
+        border: 1px solid #3caea7;
+    }
+    .item-block {
+        width: 500px;
+    }
+    .navigation {
+        padding-top: 20px;
+    }
+
+}
+
+@media only screen and (min-width: 992px) and (max-width: 1200px) {
+    /* Общие стили */
+
+
+
+
+    .description hr {
+        border: 2px solid #3caea7;
+    }
+
+
+}
+@media only screen and (min-width: 768px) and (max-width: 992px){
+    p {
+        font-size: 40px;
+    }
+
+    li {
+        font-size: 30px;
+    }
+    
+
+    .description hr {
+        margin-top: 40px;
+        margin-bottom: 20px;
+        border: 2px solid #3caea7;
+    }
+    .description img {
+        width: 30%!important;
+    }
+
+}
+@media only screen and (min-width: 480px) and (max-width: 768px) {
+    .description p {
+        font-size: 2vh;
+
+    }
+
+}
+@media only screen and (max-width: 320px) and (max-width: 480px) {
+    .description p {
+        font-size: 2vh;
+
+    }
+    p {
+        background-color: red;
+    }
+
+
+}
