@@ -38,50 +38,21 @@
         <div class="nav-menu-item">
             <nav>
                 <ul class="topmenu">
-                    <li><a>Главная</a>
-                        <ul class="submenu">
-                            <li><a href="{{url_for('index')}}">О НАС</a></li>
-                            <li><a href="{{ url_for('documents') }}">Уставные документы</a></li>
-                            <li><a href="{{ url_for('reporting') }}">Отчетность</a></li>
-                            <li><a href="{{ url_for('smi') }}">СМИ о нас</a></li>
-                            <li><a href="{{ url_for('partners') }}">Партнеры</a></li>
-                            <li><a href="{{ url_for('materials') }}">Полезные материалы</a></li>
-                        </ul>
-                    </li>
-                    <li><a href="{{url_for('our_animals')}}">НАШИ ЖИВОТНЫЕ</a>
 
-                    </li>
-<!--                    <li><a>ПРОГРАММЫ</a>-->
-<!--                        <ul class="submenu">-->
-<!--                            <li><a href="{{url_for('house_for_animals')}}">Дом дляживотных</a></li>-->
-<!--                            <li><a href="{{ url_for('ambulance') }}">Скорая помощь</a></li>-->
-<!--                            <li><a href="{{ url_for('activities') }}">Просвещение и мероприятия</a></li>-->
+                    <li><a href="{{url_for('top')}}">Популярное</a></li>
+                    <li><a href="{{url_for('create_studio')}}">Создать студию</a></li>
+                    <li><a href="{{url_for('add_video')}}">Добавить видео</a></li>
+                    <li><a href="{{url_for('my_studios')}}">Мои студии</a></li>
 
-<!--                        </ul>-->
-<!--                    </li>-->
+                    <li><a href="{{url_for('login')}}">Вход</a></li>
 
-                    <li><a href="{{url_for('partners')}}">МЕРОПРИЯТИЯ</a></li>
-                    <li><a href="{{url_for('partners')}}">ПАРТНЕРЫ</a></li>
-                    <li><a href="{{url_for('news')}}">НОВОСТИ</a></li>
-
-                    <li><a>ПОМОЧЬ</a>
-                        <ul class="submenu">
-                            <li><a href="{{url_for('help_money')}}">Помогите финансово</a></li>
-                            <li><a href="{{ url_for('opeka') }}">Стать опекуном</a></li>
-                            <li><a href="{{ url_for('volunteer') }}">Стать волонтером</a></li>
-                        </ul>
-                    </li>
-                    <li><a href="{{url_for('contacts')}}">КОНТАКТЫ</a></li>
-
-                   <li class="bold-tab"><a href="{{ url_for('index') }}">ГОРЯЧАЯ ЛИНИЯ</a></li>
-                   <i class='fas fa-paw'></i>
 
                 </ul>
             </nav>
 
 
         </div>
-        <a class="me-admin" href="{{ url_for('profile') }}">Я администратор</a>
+
     </div>
 
     {% block after %}{% endblock %}

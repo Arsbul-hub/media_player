@@ -1,4 +1,4 @@
-from app import app, blueprint, db_session
+from app import app, blueprint
 
 if __name__ == '__main__':
 

@@ -10,11 +10,13 @@ __basemodel = db.Model
 
 
 class User(UserMixin, __basemodel):
-    __tablename__ = 'users'
+    __tablename__ = 'user'
     id = sa.Column(sa.Integer, primary_key=True)
     username = sa.Column(sa.String(), index=True, unique=True)
     password_hash = sa.Column(sa.String(128))
     recommendations = sa.Column(sa.String)
+    studios = db.relationship('Studios', backref='user', lazy=True)
+
     def __repr__(self):
         return 'Пользователь {}'.format(self.username)
 
@@ -25,12 +27,36 @@ class User(UserMixin, __basemodel):
         return check_password_hash(self.password_hash, password)
 
 
-class Video(__basemodel, SerializerMixin):
-    __tablename__ = 'videos'
+class VideoPosts(__basemodel, SerializerMixin):
+    __tablename__ = 'video_posts'
     id = sa.Column(sa.Integer, primary_key=True)
     title = sa.Column(sa.String())
     description = sa.Column(sa.String())
-    cover = sa.Column(sa.String())
-    source = sa.Column(sa.String)
+    cover = sa.Column(sa.Integer())
+    source = sa.Column(sa.Integer())
+    studio_id = sa.Column(sa.Integer(), db.ForeignKey('studios.id'))
     timestamp = sa.Column(sa.DateTime, index=True, default=datetime.utcnow)
 
+
+class Videos(__basemodel, SerializerMixin):
+    __tablename__ = 'videos'
+    id = sa.Column(sa.Integer, primary_key=True)
+    format = sa.Column(sa.String)
+    timestamp = sa.Column(sa.DateTime, index=True, default=datetime.utcnow)
+
+
+class Images(__basemodel, SerializerMixin):
+    __tablename__ = 'images'
+    id = sa.Column(sa.Integer, primary_key=True)
+    format = sa.Column(sa.String)
+    timestamp = sa.Column(sa.DateTime, index=True, default=datetime.utcnow)
+
+
+class Studios(__basemodel, SerializerMixin):
+    __tablename__ = 'studios'
+    id = sa.Column(sa.Integer, primary_key=True)
+    title = sa.Column(sa.String())
+    description = sa.Column(sa.String())
+    cover = sa.Column(sa.Integer())
+    user_id = sa.Column(sa.Integer, db.ForeignKey('user.id'), nullable=True)
+    videos = db.relationship('VideoPosts', backref='studios', lazy=True)

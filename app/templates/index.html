@@ -8,27 +8,6 @@
     <title>О нас</title>
     <link rel="stylesheet" type="text/css" href="/static/css/index.css">
 
-    <style>
-            /* body:before{
-            z-index:-1;
-            position:absolute;
-            left:0;
-            top:0;
-            content: url(/static/images/background_image.png);
-            opacity:0.4;
-        } */
-        {% if allow_background_image == '1' %}
-<!--            body {-->
-<!--                background-image: url(/static/images/background_image.png);-->
-<!--            }-->
-            #bg-image {
-                visibility: visible;
-            }
-        {% endif %}
-
-
-
-    </style>
 
     {% endblock %}
 </head>
@@ -42,10 +21,14 @@
 <div id="bg-image"></div>
 {% endblock %}
 {% block after %}
-    <div class="description">
-        <span class="title">О нас</span>
-        <hr>
-        <p>{{ description | safe}}</p>
+    <div class="container">
+        {% for video in videos %}
+        <div class="card">
+            <img src="{{video.cover}}">
+            <p>{{video.title}}</p>
+        </div>
+        {% endfor %}
+
     </div>
 
 {% endblock %}

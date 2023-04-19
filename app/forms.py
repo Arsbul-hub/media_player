@@ -2,11 +2,11 @@ import re
 
 from flask_ckeditor import CKEditorField
 from flask_wtf import FlaskForm
-from wtforms import StringField, PasswordField, BooleanField, SubmitField, FileField
+from wtforms import StringField, PasswordField, BooleanField, SubmitField, FileField, TextAreaField
 from wtforms.widgets import TextArea
 from wtforms.validators import ValidationError, DataRequired, Email, EqualTo
 from app.models import User
-from app.validators import image_validation, pdf_validation
+from app.validators import video_validator, image_validator
 
 
 class LoginForm(FlaskForm):
@@ -37,37 +37,18 @@ class RegistrationForm(FlaskForm):
             raise ValidationError('Please use a different username.')
 
 
-class CreateNewsForm(FlaskForm):
-    title = StringField("Название поста:", validators=[DataRequired()])
-    cover = FileField("Фотография:", validators=[DataRequired(), image_validation])
-    body = CKEditorField("Текст поста:", validators=[DataRequired()])
-    submit = SubmitField("Опубликовать")
-
-
-class AddAnimalForm(FlaskForm):
-    title = StringField("Кличка нового животного:", validators=[DataRequired()])
-    cover = FileField("Фотография:", validators=[DataRequired(), image_validation])
-    body = CKEditorField("Информация о животном:", validators=[DataRequired()])
+class AddVideoForm(FlaskForm):
+    title = StringField("Название видео", validators=[DataRequired()])
+    description = TextAreaField("Описание видео", validators=[DataRequired()])
+    video = FileField("Видео ресурс", validators=[DataRequired(), video_validator])
+    cover = FileField("Обложка", validators=[image_validator])
     submit = SubmitField("Добавить")
 
 
-class AddPartnerForm(FlaskForm):
-    name = StringField("Имя партнёра:", validators=[DataRequired()])
-    logo = FileField("Логотип партнёра:", validators=[DataRequired(), image_validation])
-    link = StringField("Ссылка на сайт партнёра")
-    submit = SubmitField("Добавить")
+class CreateStudioForm(FlaskForm):
+    title = StringField("Название студии", validators=[DataRequired()])
+    description = TextAreaField("Описание студии", validators=[DataRequired()])
+    cover = FileField("Аватарка", validators=[DataRequired(), image_validator])
+    submit = SubmitField("Создать")
 
 
-class AddDocumentForm(FlaskForm):
-    title = StringField("Название документа", validators=[DataRequired()])
-
-    document = FileField("Документ", validators=[DataRequired(), pdf_validation])
-    submit = SubmitField("Добавить")
-
-
-class ConfigForm(FlaskForm):
-    description = CKEditorField("Описание сайта", validators=[DataRequired()])
-    site_logo = FileField("Логотип сайта", validators=[image_validation])
-    background_image = FileField("Фоновое изображение главной страницы", validators=[image_validation])
-    allow_background_image = BooleanField("Отображать фоновое изображение")
-    save = SubmitField("Сохранить")

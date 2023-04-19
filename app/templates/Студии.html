@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+{% extends "base.html" %}
+<head>
+    {% block head %}
+    <meta charset="utf-8">
+    <title>О нас</title>
+
+
+
+    {% endblock %}
+<body>
+{% block after %}
+{% for studio in studios %}
+<a href="{{url_for('add_video', studio_id=studio.id)}}"><h2>{{ studio.title }}</h2></a>
+
+
+{% endfor %}
+{% endblock %}
+</body>
+</html>
