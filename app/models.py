@@ -38,17 +38,11 @@ class VideoPosts(__basemodel, SerializerMixin):
     timestamp = sa.Column(sa.DateTime, index=True, default=datetime.utcnow)
 
 
-class Videos(__basemodel, SerializerMixin):
-    __tablename__ = 'videos'
+class Resource(__basemodel, SerializerMixin):
+    __tablename__ = 'resources'
     id = sa.Column(sa.Integer, primary_key=True)
     format = sa.Column(sa.String)
-    timestamp = sa.Column(sa.DateTime, index=True, default=datetime.utcnow)
-
-
-class Images(__basemodel, SerializerMixin):
-    __tablename__ = 'images'
-    id = sa.Column(sa.Integer, primary_key=True)
-    format = sa.Column(sa.String)
+    source = sa.Column(sa.String)
     timestamp = sa.Column(sa.DateTime, index=True, default=datetime.utcnow)
 
 
@@ -57,6 +51,6 @@ class Studios(__basemodel, SerializerMixin):
     id = sa.Column(sa.Integer, primary_key=True)
     title = sa.Column(sa.String())
     description = sa.Column(sa.String())
-    cover = sa.Column(sa.Integer())
+    cover = sa.Column(sa.Integer(), sa.ForeignKey('resources.id'))
     user_id = sa.Column(sa.Integer, db.ForeignKey('user.id'), nullable=True)
     videos = db.relationship('VideoPosts', backref='studios', lazy=True)

@@ -28,4 +28,5 @@ locale.setlocale(
     locale="Russian"
 )
 manager = DataManager()
+
 from app import routes, models

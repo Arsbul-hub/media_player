@@ -22,7 +22,8 @@
 {% endblock %}
 {% block after %}
     <div class="container">
-        {% for video in videos %}
+
+        {% for video in videos_top %}
         <div class="card">
             <img src="{{video.cover}}">
             <p>{{video.title}}</p>

@@ -41,12 +41,14 @@
 
                     <li><a href="{{url_for('top')}}">Популярное</a></li>
                     <li><a href="{{url_for('create_studio')}}">Создать студию</a></li>
-                    <li><a href="{{url_for('add_video')}}">Добавить видео</a></li>
+
                     <li><a href="{{url_for('my_studios')}}">Мои студии</a></li>
-
+                    {% if not user.is_authenticated %}
                     <li><a href="{{url_for('login')}}">Вход</a></li>
-
-
+                    <li><a href="{{url_for('register')}}">Регистрация</a></li>
+                    {% else %}
+                    <li><a href="{{url_for('logout')}}">Выйти</a></li>
+                    {% endif %}
                 </ul>
             </nav>
 

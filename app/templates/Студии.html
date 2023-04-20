@@ -13,7 +13,7 @@
 {% block after %}
 {% for studio in studios %}
 <a href="{{url_for('add_video', studio_id=studio.id)}}"><h2>{{ studio.title }}</h2></a>
-
+<img src="data:image/{{resources.query.filter_by(id=studio.cover).first().format}};base64, {{resources.query.filter_by(id=studio.cover).first().source}}"/>
 
 {% endfor %}
 {% endblock %}

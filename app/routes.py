@@ -9,7 +9,7 @@ from werkzeug.datastructures import FileStorage
 from app import app, morph, db, DataManager, manager
 
 from flask_login import current_user, login_user, logout_user, login_required
-from app.models import User, Videos, Studios, Images, VideoPosts
+from app.models import User, Studios, VideoPosts, Resource
 from app.forms import LoginForm, RegistrationForm, AddVideoForm, CreateStudioForm
 from werkzeug.urls import url_parse
 from app import login
@@ -30,7 +30,7 @@ def uploaded_files(filename):
 @app.route('/reload_auth')
 def reload_auth_system():
     messages = ["Конфигурационный файл аутентификации пользователей был перезагружен!"]
-    if not db.session.query(User).filter_by(username="Admin").first():
+    if not User.query.filter_by(username="Admin").first():
         admin = User(username="Admin")
         admin.set_password("admin")
         db.session.add(admin)
@@ -38,7 +38,13 @@ def reload_auth_system():
         db.session.commit()
         logout_user()
 
-    return render_template("service/Уведомление.html", title="Внимание", messages=messages)
+    return render_template("service/Уведомление.html", user=current_user, title="Внимание", messages=messages)
+
+
+@app.route('/logout')
+def logout():
+    logout_user()
+    return redirect("/")
 
 
 @app.route('/login', methods=['GET', 'POST'])
@@ -57,14 +63,11 @@ def login():
         if not next_page or url_parse(next_page).netloc != '':
             next_page = url_for('top')
         return redirect(next_page)
-    return render_template('login.html', title='Sign In', form=form)
+    return render_template('login.html', user=current_user, title='Sign In', form=form)
 
 
 @app.route('/register', methods=['GET', 'POST'])
-
 def register():
-
-
     form = RegistrationForm()
     if form.validate_on_submit():
         user = User(username=form.username.data)
@@ -73,8 +76,8 @@ def register():
         db.session.commit()
         # login_user(user, remember=form.remember_me.data)
         flash('Congratulations, you are now a registered admin!')
-        return redirect(url_for("/"))
-    return render_template('register.html', title='Register', form=form)
+        return redirect("/")
+    return render_template('register.html', user=current_user, title='Register', form=form)
 
 
 @app.route('/upload', methods=['POST', "GET"])
@@ -111,18 +114,12 @@ def top():
 
     with open("app/static/loaded_media/tt.txt", "wb") as f:
         f.write(text)
-    return render_template("index.html", music=manager.get_top())
+    return render_template("index.html", user=current_user, videos_top=VideoPosts.query.all(), resources=Resource)
 
 
 @app.route('/Рекомендации')
 def recommendations():
-    return render_template("index.html", music=manager.get_top())
-
-
-@app.route('/logout')
-def logout():
-    logout_user()
-    return redirect("/")
+    return render_template("index.html", user=current_user, music=manager.get_top())
 
 
 @login_required
@@ -134,15 +131,19 @@ def add_video():
         return redirect("/")
     form = AddVideoForm()
     if form.validate_on_submit():
-        video = Videos(format=form.video.data.filename.split(".")[-1])
+        video = Resource()
+        video.format = form.video.data.filename.split(".")[-1]
+        video.source = str(base64.b64encode(form.video.data.read()))[2:-1]
         db.session.add(video)
         db.session.commit()
-        save_file(form.video.data, "media/videos/", str(video.id))
+        save_file(form.video.data, "static/media/videos/", str(video.id))
 
-        cover = Images(format=form.cover.data.filename.split(".")[-1])
+        cover = Resource()
+        video.format = form.cover.data.filename.split(".")[-1]
+        video.source = str(base64.b64encode(form.cover.data.read()))[2:-1]
         db.session.add(cover)
         db.session.commit()
-        save_file(form.cover.data, "media/images/", str(cover.id))
+
         video_post = VideoPosts()
         video_post.title = form.title.data
         video_post.description = form.description.data
@@ -153,7 +154,7 @@ def add_video():
         db.session.commit()
 
         return redirect("/")
-    return render_template('Добавить видео.html', title='Sign In', form=form)
+    return render_template('Добавить видео.html', user=current_user, title='Sign In', form=form)
 
 
 @login_required
@@ -162,11 +163,14 @@ def create_studio():
     if not current_user.is_authenticated:
         return redirect("/")
     form = CreateStudioForm()
+
     if form.validate_on_submit():
-        cover = Images(format=form.cover.data.filename.split(".")[-1])
+        cover = Resource()
+        cover.format = form.cover.data.filename.split(".")[-1]
+
+        cover.source = str(base64.b64encode(form.cover.data.read()))[2:-1]  # убираем ковычки
         db.session.add(cover)
         db.session.commit()
-        save_file(form.cover.data, "media/images/", str(cover.id))
 
         studio = Studios()
         studio.title = form.title.data
@@ -177,7 +181,7 @@ def create_studio():
         db.session.commit()
 
         return redirect("/")
-    return render_template('Создать студию.html', form=form)
+    return render_template('Создать студию.html', user=current_user, form=form)
 
 
 #
@@ -189,7 +193,7 @@ def my_studios():
     studios = current_user.studios
 
     print(studios)
-    return render_template('Студии.html', studios=studios)
+    return render_template('Студии.html', user=current_user, studios=studios, resources=Resource)
 
 
 @app.errorhandler(404)

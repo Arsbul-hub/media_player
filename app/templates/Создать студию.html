@@ -30,7 +30,7 @@
 
         {{ form.description.label }}
         <p>
-            {{ form.description(size=32) }}
+            {{ form.description(size=32, cols=35, rows=6) }}
             {% for error in form.description.errors %}
             <span style="color: red;">{{ error }}</span>
             {% endfor %}
