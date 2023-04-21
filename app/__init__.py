@@ -4,12 +4,17 @@ from flask_ckeditor import CKEditor
 from flask_restful import Api
 
 from app.DataManager import DataManager
+
 from config import Config
 from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
-from flask_login import LoginManager
+from flask_login import LoginManager, AnonymousUserMixin
 
 import pymorphy3
+class Anonymous(AnonymousUserMixin):
+    username = "Guest"
+    recommendations = ""
+    is_authenticated = True
 
 app = Flask(__name__)
 app.config.from_object(Config)

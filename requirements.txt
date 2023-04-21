@@ -5,6 +5,6 @@ Werkzeug~=2.2.2
 Flask~=2.2.2
 alembic~=1.9.2
 SQLAlchemy~=2.0.4
-flask-ckeditor
+
 WTForms~=3.0.1
 pymorphy2~=0.9.1

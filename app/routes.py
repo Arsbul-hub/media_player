@@ -108,13 +108,10 @@ def save_file(file, path="/media", name=None, formates=[]):
 @app.route("/")
 @app.route("/Популярное")
 def top():
-    text = ""
-    with open("app/static/loaded_media/123.mp4", "rb") as videoFile:
-        text = base64.b64encode(videoFile.read())
+    top_list = VideoPosts.query.all()
+    print(top_list)
 
-    with open("app/static/loaded_media/tt.txt", "wb") as f:
-        f.write(text)
-    return render_template("index.html", user=current_user, videos_top=VideoPosts.query.all(), resources=Resource)
+    return render_template("index.html", user=current_user, videos_top=top_list, resources=Resource)
 
 
 @app.route('/Рекомендации')
@@ -127,6 +124,7 @@ def recommendations():
 def add_video():
     studio_id = request.args.get("studio_id")
     request_studio = Studios.query.filter_by(id=studio_id).first()
+
     if not current_user.is_authenticated or request_studio not in current_user.studios:
         return redirect("/")
     form = AddVideoForm()
@@ -136,11 +134,9 @@ def add_video():
         video.source = str(base64.b64encode(form.video.data.read()))[2:-1]
         db.session.add(video)
         db.session.commit()
-        save_file(form.video.data, "static/media/videos/", str(video.id))
-
         cover = Resource()
-        video.format = form.cover.data.filename.split(".")[-1]
-        video.source = str(base64.b64encode(form.cover.data.read()))[2:-1]
+        cover.format = form.cover.data.filename.split(".")[-1]
+        cover.source = str(base64.b64encode(form.cover.data.read()))[2:-1]
         db.session.add(cover)
         db.session.commit()
 
@@ -194,6 +190,16 @@ def my_studios():
 
     print(studios)
     return render_template('Студии.html', user=current_user, studios=studios, resources=Resource)
+
+
+@app.route('/Видео')
+def vid():
+    video_id = request.args.get("id")
+    video_post = VideoPosts.query.get(video_id)
+    cover = Resource.query.get(video_post.cover)
+    video = Resource.query.get(video_post.source)
+
+    return render_template('index.html', user=current_user )
 
 
 @app.errorhandler(404)

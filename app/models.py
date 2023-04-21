@@ -9,6 +9,8 @@ import sqlalchemy as sa
 __basemodel = db.Model
 
 
+
+
 class User(UserMixin, __basemodel):
     __tablename__ = 'user'
     id = sa.Column(sa.Integer, primary_key=True)
